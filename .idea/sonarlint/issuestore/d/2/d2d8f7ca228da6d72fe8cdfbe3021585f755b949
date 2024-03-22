@@ -1,0 +1,6 @@
+
+c
+java:S2259>"FA "NullPointerException" could be thrown; "cartItem" is nullable here.(³ŒÉ8Àˆ«ªæ1
+m
+java:S3655="PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(÷¤’ó8Áˆ«ªæ1
+l	java:S1068"+Replace this use of System.err by a logger.(×·ˆ(8 †ñ¨æ1J$12f33387-f3d8-4074-9a0c-a929271a97d8

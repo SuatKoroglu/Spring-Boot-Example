@@ -5,6 +5,18 @@
       <sourceFolder url="file://$MODULE_DIR$/../../demo/build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
     </content>
   </component>
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" value="7d2293e6-9c23-4b88-b845-c6cf1f0a00d3" />
+        </datasource-mapping>
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+  </component>
   <component name="SonarLintModuleSettings">
     <option name="uniqueId" value="c8791d7c-cddb-4998-9803-c32f5dd481d0" />
   </component>
