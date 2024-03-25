@@ -13,7 +13,6 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final IProductMapper productMapper;
 
     @GetMapping
     public List<ProductDto> getProducts() {

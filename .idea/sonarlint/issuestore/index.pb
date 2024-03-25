@@ -45,3 +45,7 @@ p
 @demo/src/main/java/com/example/demo/cart/CartItemRepository.java,6\1\619bf726659a9f0071facc5f04fac6fae080716f
 n
 >demo/src/main/java/com/example/demo/product/ProductConfig.java,a\9\a93cf217a00f52a585c998d46b43611deed305bf
+]
+-.idea/httpRequests/2024-03-22T152741.200.json,7\a\7abeccd8622cde3a61b9e3ea70d8cf037f7985f5
+]
+-.idea/httpRequests/2024-03-22T154201.200.json,0\f\0f762e9a17fdf0b0d9e88f534c85a2c4c1b4a2f2
