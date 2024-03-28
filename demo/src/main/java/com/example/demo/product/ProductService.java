@@ -3,6 +3,7 @@ package com.example.demo.product;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    public List<ProductDto> getProducts(){
+    public List<ProductDto> getProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream()
                 .map(productMapper::fromProduct)
@@ -36,13 +37,15 @@ public class ProductService {
 //        }
 //        return productMapper.fromProduct(productRepository.findById(id).get());
 
-        try {
-            return productMapper.fromProduct(productRepository.findById(id).get());
-        } catch (Exception e) {
-            throw new NoSuchElementException("Product id " + id + " does not exists");
-        }
+//        try {
+//            return productMapper.fromProduct(productRepository.findById(id).get());
+//        } catch (Exception e) {
+//            throw new NoSuchElementException("Product id " + id + " does not exists");
+//        }
 
-
+        return productRepository.findById(id)
+                .map(productMapper::fromProduct)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with id: " + id));
     }
 
     public Product getProductById(Long id) {
@@ -62,11 +65,10 @@ public class ProductService {
 //        }
 //        productRepository.deleteById(id);
 
-        try {
-            productRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new NoSuchElementException("Product id " + id + " does not exists");
-        }
+
+        Product product = getProductById(id);
+
+        productRepository.delete(product);
     }
 
     @Transactional // *
@@ -91,7 +93,7 @@ public class ProductService {
     public ProductDto updateProduct(Long id, ProductDto givenProductDto) {
         Product givenProduct = productMapper.toProduct(givenProductDto);
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("product with id "+ id + " does not exist"));
+                .orElseThrow(() -> new NoSuchElementException("product with id " + id + " does not exist"));
 
         Optional.ofNullable(givenProduct.getName())
                 .filter(name -> !name.isEmpty())
@@ -108,5 +110,9 @@ public class ProductService {
                 .ifPresent(product::setPrice);
 
         return productMapper.fromProduct(product);
+
+        // bunları mapststruckt ile update etmeye de bi bak
+        // mapstruckt içerisinde strateji belirleme (sadece null olanları değiş/ brand sıfır olmasın vesaire)
+        // bi field'ı set'lerken ona özel bi strateji belirle
     }
 }

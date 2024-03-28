@@ -2,6 +2,7 @@ package com.example.demo.cart;
 
 import com.example.demo.product.Product;
 import com.example.demo.product.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -21,13 +23,6 @@ public class CartService {
     private final ICartItemMapper cartItemMapper;
 
     private final ProductRepository productRepository;
-    @Lazy
-    public CartService(CartRepository cartRepository, ICartMapper cartMapper, ICartItemMapper cartItemMapper, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.cartMapper = cartMapper;
-        this.cartItemMapper = cartItemMapper;
-        this.productRepository = productRepository;
-    }
 
 
     public CartDto getCart(Long id) {
@@ -82,7 +77,7 @@ public class CartService {
     public Cart removeProductFromCart(Long cartId, Long productId) {
         CartDto cartDto = getCart(cartId);
         Cart cart= cartMapper.toCart(cartDto);
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product not found with id: " + productId));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("Product not found with id: " + productId));
         CartItem cartItem = cart.getCartItemByProduct(product);
 //        if (cartItem != null) {
 //
@@ -95,6 +90,8 @@ public class CartService {
                     cart.removeCartItem(item);
                     cartRepository.save(cart);
                 });
+
+        // sepette öyle bir item var mı diye kontrol et önce
         return cart;
     }
 
@@ -103,7 +100,6 @@ public class CartService {
             return carts.stream()
                     .map(cartMapper::fromCart)
                     .toList();
-
     }
 
     public void deleteCart(Long id) {
@@ -117,5 +113,6 @@ public class CartService {
         } catch (Exception e) {
             throw new NoSuchElementException("Cart id " + id + " does not exist");
         }
+        //product service'teki gibi yap
     }
 }

@@ -19,7 +19,4 @@ public class ProductConfig {
             productRepository.saveAll(List.of(asus,rotring,lenovo));
         };
     }
-
-
-
 }
