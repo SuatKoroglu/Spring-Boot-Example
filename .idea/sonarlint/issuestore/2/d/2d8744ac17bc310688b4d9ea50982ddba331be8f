@@ -1,3 +1,5 @@
 
-‡
-java:S1128"FRemove this unused import 'org.springframework.stereotype.Repository'.(¦ýÍýüÿÿÿÿJ$fdc83ace-ee6a-44b0-9d11-b79938b18ada
+•
+java:S1128"RRemove this unused import 'org.springframework.data.jpa.repository.JpaRepository'.(À™‡“8Ë¨ÝÃé1J$d9ec08b6-bc09-4875-9116-397001925986
+Ž
+java:S1128"FRemove this unused import 'org.springframework.stereotype.Repository'.(¦ýÍýüÿÿÿÿ8çÀ×Ãé1J$a3b2d741-b99d-45b2-a1c6-697057dba516

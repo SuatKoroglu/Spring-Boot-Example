@@ -1,13 +1,7 @@
 package com.example.demo.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -34,7 +28,8 @@ public class Address {
     @Column(name = "country", nullable = false, length = 75)
     private String country;
 
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private LocalUser user;
 }

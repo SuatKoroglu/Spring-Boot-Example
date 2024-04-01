@@ -2,9 +2,9 @@ package com.example.demo.cart;
 
 import com.example.demo.product.Product;
 import com.example.demo.product.ProductRepository;
+import com.example.demo.user.LocalUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,17 +26,14 @@ public class CartService {
 
 
     public CartDto getCart(Long id) {
-//        var cart = cartRepository.findById(id);
-//        if (cart.isPresent()){
-//            return cartMapper.fromCart(cart.get());
-//        }
-//        return new CartDto(id, null);
 
         return cartRepository.findById(id)
                 .map(cartMapper::fromCart)
-                .orElseGet(() -> new CartDto(id, null));
+                .orElseGet(() -> new CartDto(id, null,null,null));
+    }
 
-
+    public Cart getCartById(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cart not found with id: " + id));
     }
 
 
@@ -44,23 +41,6 @@ public class CartService {
     public CartDto addProductToCart(Long id ,CartItemDto cartItemDto) {
         CartItem cartItem = cartItemMapper.toCartItem(cartItemDto);
 
-//        Cart cart;
-//        Optional<Cart> optionalCart = cartRepository.findById(id);
-//        if (optionalCart.isPresent()){
-//            cart = optionalCart.get();
-//            if(cart.getCartItemByProduct(cartItem.getProduct()) == null) {
-//                cart.addCartItem(cartItem);
-//            }else {
-//                cart.getCartItemByProduct(cartItem.getProduct()).setQuantity(cartItem.getQuantity()+ cart.getCartItemByProduct(cartItem.getProduct()).getQuantity());
-//            }
-//        }else {
-//            cart = new Cart(id, Collections.singletonList(cartItem));
-//        }
-////        cartRepository.findById(id).ifPresentOrElse(c -> {
-////            cart = c;
-////        }, () -> {
-////            cart = new Cart()
-////        });
 
         Cart newCart = cartRepository.findById(id)
                 .orElse(new Cart(id));
@@ -79,11 +59,6 @@ public class CartService {
         Cart cart= cartMapper.toCart(cartDto);
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("Product not found with id: " + productId));
         CartItem cartItem = cart.getCartItemByProduct(product);
-//        if (cartItem != null) {
-//
-//            cart.removeCartItem(cartItem);
-//            cartRepository.save(cart);
-//        }
 
         Optional.ofNullable(cartItem)
                 .ifPresent(item -> {
@@ -91,28 +66,19 @@ public class CartService {
                     cartRepository.save(cart);
                 });
 
-        // sepette öyle bir item var mı diye kontrol et önce
         return cart;
     }
 
-    public List<CartDto> getCarts() {
-            List<Cart> carts= cartRepository.findAll();
+    public List<CartDto> getCarts(LocalUser user) {
+            List<Cart> carts=  cartRepository.findByUser(user);
             return carts.stream()
                     .map(cartMapper::fromCart)
                     .toList();
     }
 
     public void deleteCart(Long id) {
-//        boolean exists = cartRepository.existsById(id);
-//        if (!exists) {
-//            throw new IllegalStateException("Cart id " + id + " does not exists");
-//        }
-//        cartRepository.deleteById(id);
-        try {
-            cartRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new NoSuchElementException("Cart id " + id + " does not exist");
-        }
-        //product service'teki gibi yap
+
+        Cart cart = getCartById(id);
+        cartRepository.delete(cart);
     }
 }

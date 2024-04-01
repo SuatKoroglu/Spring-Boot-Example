@@ -1,19 +1,30 @@
 package com.example.demo.user;
 
+import com.example.demo.api.EncryptionService;
+import com.example.demo.api.JWTService;
+import com.example.demo.api.LoginBody;
 import com.example.demo.api.RegistrationBody;
 import com.example.demo.exception.UserAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserService{
 
-    public LocalUserRepository localUserRepository;
+    private final LocalUserRepository localUserRepository;
 
-    public UserService(LocalUserRepository localUserRepository) {
+    private final EncryptionService encryptionService;
+
+    private final JWTService jwtService;
+
+    public UserService(LocalUserRepository localUserRepository, EncryptionService encryptionService, JWTService jwtService) {
         this.localUserRepository = localUserRepository;
+        this.encryptionService = encryptionService;
+        this.jwtService = jwtService;
     }
 
-    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
+
+    public void registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
 
         if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
                 || localUserRepository.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
@@ -23,12 +34,19 @@ public class UserService{
         LocalUser user = new LocalUser();
         user.setUsername(registrationBody.getUsername());
 
-        //TODO: Encrypt password!!
-        user.setPassword(registrationBody.getPassword());
+        user.setPassword(encryptionService.encryptPasswpord(registrationBody.getPassword()));
 
         user.setEmail(registrationBody.getEmail());
         user.setFirstName(registrationBody.getFirstname());
         user.setLastName(registrationBody.getLastname());
-        return localUserRepository.save(user);
+        localUserRepository.save(user);
+    }
+
+    public String loginUser(LoginBody loginBody){
+        LocalUser user = localUserRepository.findByUsernameIgnoreCase(loginBody.getUsername()).orElseThrow(null);
+        if (encryptionService.verifyPassword(loginBody.getPassword(),user.getPassword())) {
+            return jwtService.generateJWT(user);
+        }
+        return null;
     }
 }

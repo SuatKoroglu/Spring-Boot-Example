@@ -2,6 +2,8 @@ package com.example.demo.cart;
 
 
 import com.example.demo.product.Product;
+import com.example.demo.user.Address;
+import com.example.demo.user.LocalUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,22 +24,20 @@ public class Cart {
 
     @Id
     private Long id;
-    
 
-    //@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cartItem_id", referencedColumnName = "id")
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private LocalUser user;
 
-//    public void addCartItem(Product product, Integer quantity) {
-//        CartItem cartItem = new CartItem( product, quantity);
-//        cartItems.add(cartItem);
-//    }
-//
-//    public void addCartItem(CartItem cartItem) {
-//        cartItems.add(cartItem);
-//    }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 
     public void removeCartItem(CartItem cartItem) {
         cartItems.remove(cartItem);

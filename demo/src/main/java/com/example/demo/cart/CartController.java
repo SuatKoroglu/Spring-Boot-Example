@@ -1,8 +1,10 @@
 package com.example.demo.cart;
 
 
+import com.example.demo.user.LocalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class CartController {
 
 
     @GetMapping
-    public List<CartDto> getCarts() {
-        return cartService.getCarts();
+    public List<CartDto> getCarts(@AuthenticationPrincipal LocalUser user) {
+        return cartService.getCarts(user);
     }
 
     @GetMapping(path = "{id}")

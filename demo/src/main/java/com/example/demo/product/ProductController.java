@@ -23,7 +23,6 @@ public class ProductController {
     public ProductDto getProduct(@PathVariable("id") Long id){
         return productService.getProduct(id);
     }
-    //sadece id'si 1 olanı getir örneğin
 
 
     @PostMapping
