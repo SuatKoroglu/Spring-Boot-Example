@@ -24,7 +24,7 @@ public class UserService{
     }
 
 
-    public void registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
+    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
 
         if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
                 || localUserRepository.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
@@ -34,12 +34,12 @@ public class UserService{
         LocalUser user = new LocalUser();
         user.setUsername(registrationBody.getUsername());
 
-        user.setPassword(encryptionService.encryptPasswpord(registrationBody.getPassword()));
+        user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
 
         user.setEmail(registrationBody.getEmail());
         user.setFirstName(registrationBody.getFirstname());
         user.setLastName(registrationBody.getLastname());
-        localUserRepository.save(user);
+        return localUserRepository.save(user);
     }
 
     public String loginUser(LoginBody loginBody){

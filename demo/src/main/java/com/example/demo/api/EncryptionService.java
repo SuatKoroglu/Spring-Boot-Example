@@ -16,7 +16,7 @@ public class EncryptionService {
         salt = BCrypt.gensalt(saltRounds);
     }
 
-    public String encryptPasswpord(String password){
+    public String encryptPassword(String password){
         return BCrypt.hashpw(password,salt);
     }
 
