@@ -15,7 +15,6 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    private final ICartMapper cartMapper;
 
 
     @GetMapping
@@ -28,21 +27,21 @@ public class CartController {
         return cartService.getCart(cartId);
     }
 
-    @PostMapping(path = "{id}")
-    public ResponseEntity<CartDto> addProductToCart(@PathVariable("id") Long cartId, @RequestBody() CartItemDto cartItemDto) {
-        return ResponseEntity.ok(cartService.addProductToCart(cartId, cartItemDto));
+    @PostMapping()
+    public ResponseEntity<CartDto> addProductToCart(@AuthenticationPrincipal LocalUser user, @RequestBody() CartItemDto cartItemDto) {
+        return ResponseEntity.ok(cartService.addProductToCart(user.getId(), cartItemDto));
     }
 
 
-    @DeleteMapping(path = "{id}")
-    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable("id") Long cartID, @RequestParam("productId") Long productId) {
-        return ResponseEntity.ok(cartMapper.fromCart(cartService.removeProductFromCart(cartID ,productId)));
+    @DeleteMapping()
+    public ResponseEntity<CartDto> removeProductFromCart(@AuthenticationPrincipal LocalUser user, @RequestParam("productId") Long productId) {
+        return ResponseEntity.ok(cartService.removeProductFromCart(user.getId(), productId));
     }
 
 
-    @DeleteMapping(path = "/delete/{id}")
-    public void deleteCart(@PathVariable("id") Long cartID) {
-        cartService.deleteCart(cartID);
+    @DeleteMapping(path = "/delete")
+    public void deleteCart(@AuthenticationPrincipal LocalUser user) {
+        cartService.deleteCart(user.getId());
     }
 
 }

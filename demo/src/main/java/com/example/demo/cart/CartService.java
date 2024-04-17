@@ -3,6 +3,7 @@ package com.example.demo.cart;
 import com.example.demo.product.Product;
 import com.example.demo.product.ProductRepository;
 import com.example.demo.user.LocalUser;
+import com.example.demo.user.LocalUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class CartService {
 
     private final CartRepository cartRepository;
+
+    private final LocalUserRepository localUserRepository;
 
     private final ICartMapper cartMapper;
 
@@ -40,10 +43,10 @@ public class CartService {
 
     public CartDto addProductToCart(Long id ,CartItemDto cartItemDto) {
         CartItem cartItem = cartItemMapper.toCartItem(cartItemDto);
-
+        LocalUser user = localUserRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
 
         Cart newCart = cartRepository.findById(id)
-                .orElse(new Cart(id));
+                .orElse(new Cart(id,user, user.getAddresses().getFirst()));
 
         CartItem newCartItem = newCart.getCartItemByProductOrCreate(cartItem.getProduct());
 
@@ -54,7 +57,7 @@ public class CartService {
         return cartMapper.fromCart(newCart);
     }
 
-    public Cart removeProductFromCart(Long cartId, Long productId) {
+    public CartDto removeProductFromCart(Long cartId, Long productId) {
         CartDto cartDto = getCart(cartId);
         Cart cart= cartMapper.toCart(cartDto);
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("Product not found with id: " + productId));
@@ -66,7 +69,7 @@ public class CartService {
                     cartRepository.save(cart);
                 });
 
-        return cart;
+        return cartMapper.fromCart(cart);
     }
 
     public List<CartDto> getCarts(LocalUser user) {

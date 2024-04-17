@@ -8,22 +8,14 @@ import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.user.LocalUser;
 import com.example.demo.user.LocalUserRepository;
 import com.example.demo.user.UserService;
-
-import jakarta.transaction.Transactional;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,8 +26,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-//    @InjectMocks
-//    UserService userService;
 
     @InjectMocks
     private UserService underTest;
@@ -51,15 +41,6 @@ public class UserServiceTest {
     EncryptionService encryptionService;
 
 
-    @BeforeEach
-    void setUp() {
-//        RegistrationBody body = new RegistrationBody();
-//        body.setUsername("UserA");
-//        body.setEmail("UserServiceTest$testRegisterUser@junit.com");
-//        body.setFirstname("FirstName");
-//        body.setLastname("LastName");
-//        body.setPassword("MySecretPassword123");
-    }
 
     @Test
     void testRegisterUserAlreadyExistsScenarios() throws UserAlreadyExistsException {
@@ -80,7 +61,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterUserSuccess() throws Exception {
+    void testRegisterUserSuccess() throws Exception {
 
         // Create test data
         RegistrationBody registrationBody = new RegistrationBody("UserA",
@@ -120,7 +101,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void testLoginUserSuccessfulLogin() {
+    void testLoginUserSuccessfulLogin() {
         // Set up mocks
         LoginBody loginBody = new LoginBody("testUsername", "asdasd1");
         String expectedJwt = "generatedJwtToken";
@@ -137,6 +118,5 @@ public class UserServiceTest {
         // Verify results
         assertEquals(expectedJwt, actualJwt);
     }
-
 
 }

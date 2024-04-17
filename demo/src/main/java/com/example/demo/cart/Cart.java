@@ -39,6 +39,12 @@ public class Cart {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    public Cart(Long id, LocalUser user, Address address) {
+        this.id = id;
+        this.user = user;
+        this.address = address;
+    }
+
     public void removeCartItem(CartItem cartItem) {
         cartItems.remove(cartItem);
     }
