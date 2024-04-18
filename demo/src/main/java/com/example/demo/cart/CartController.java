@@ -22,10 +22,6 @@ public class CartController {
         return cartService.getCarts(user);
     }
 
-    @GetMapping(path = "{id}")
-    public CartDto getCart(@PathVariable("id") Long cartId) {
-        return cartService.getCart(cartId);
-    }
 
     @PostMapping()
     public ResponseEntity<CartDto> addProductToCart(@AuthenticationPrincipal LocalUser user, @RequestBody() CartItemDto cartItemDto) {

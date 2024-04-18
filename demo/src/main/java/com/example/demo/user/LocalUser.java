@@ -2,7 +2,6 @@ package com.example.demo.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;

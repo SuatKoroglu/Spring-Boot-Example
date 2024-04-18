@@ -18,9 +18,6 @@ import java.util.*;
 @Entity
 @Table
 public class Cart {
-    public Cart(Long id) {
-        this.id = id;
-    }
 
     @Id
     private Long id;
