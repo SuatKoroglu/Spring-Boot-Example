@@ -28,7 +28,6 @@ public class UserService{
         this.jwtService = jwtService;
     }
 
-
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
 
         if (localUserRepository.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()

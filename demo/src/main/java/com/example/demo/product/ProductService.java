@@ -30,8 +30,6 @@ public class ProductService {
     }
 
     public ProductDto getProduct(Long id) {
-
-
         return productRepository.findById(id)
                 .map(productMapper::fromProduct)
                 .orElseThrow(() -> new NoSuchElementException("Product not found with id: " + id));
@@ -48,14 +46,11 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
-
         Product product = getProductById(id);
-
         productRepository.delete(product);
     }
 
     @Transactional // *
-
     public ProductDto updateProduct(Long id, ProductDto givenProductDto) {
         Product givenProduct = productMapper.toProduct(givenProductDto);
         Product product = productRepository.findById(id)

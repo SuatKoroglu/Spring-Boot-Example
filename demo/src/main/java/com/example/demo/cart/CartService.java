@@ -39,8 +39,6 @@ public class CartService {
         return cartRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cart not found with id: " + id));
     }
 
-
-
     public CartDto addProductToCart(Long id ,CartItemDto cartItemDto) {
         CartItem cartItem = cartItemMapper.toCartItem(cartItemDto);
         LocalUser user = localUserRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));

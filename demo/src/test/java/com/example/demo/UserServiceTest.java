@@ -41,7 +41,6 @@ class UserServiceTest {
     EncryptionService encryptionService;
 
 
-
     @Test
     void testRegisterUserAlreadyExistsScenarios() throws UserAlreadyExistsException {
         // Arrange (use data provider or separate methods for better organization)
@@ -106,7 +105,7 @@ class UserServiceTest {
         LoginBody loginBody = new LoginBody("testUsername", "asdasd1");
         String expectedJwt = "generatedJwtToken";
         LocalUser user = new LocalUser("testUsername", "$2a$10$i/Tq1MlvJ4NKNWiq3wXqjuEx6yUoimotj2o0HGMk5CQucZu0OQ9ee",
-                "asd@gmail.com","mahmut","mahmudow"); // Assuming password is already encrypted
+                "asd@gmail.com","mahmut","mahmudow");
 
         when(localUserRepository.findByUsernameIgnoreCase(loginBody.getUsername())).thenReturn(java.util.Optional.of(user));
         when(encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())).thenReturn(true);
@@ -118,5 +117,4 @@ class UserServiceTest {
         // Verify results
         assertEquals(expectedJwt, actualJwt);
     }
-
 }

@@ -22,8 +22,6 @@ public class Cart {
     @Id
     private Long id;
 
-
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cartItem_id", referencedColumnName = "id")
     private List<CartItem> cartItems = new ArrayList<>();

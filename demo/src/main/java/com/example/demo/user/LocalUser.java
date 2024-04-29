@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "local_user")
 public class LocalUser {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

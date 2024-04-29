@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     @InjectMocks
-    private ProductService undertest;
+    private ProductService underTest;
 
     @Mock
     private ProductRepository productRepository;
@@ -40,7 +40,7 @@ class ProductServiceTest {
         when(productRepository.findAll()).thenReturn(expectedProducts);
 
         // Execute the getProducts method
-        List<ProductDto> actualProductDtos = undertest.getProducts();
+        List<ProductDto> actualProductDtos = underTest.getProducts();
 
         // Verify results
         assertEquals(2, actualProductDtos.size());
@@ -62,7 +62,7 @@ class ProductServiceTest {
 
 
         // Act
-        ProductDto result = undertest.getProduct(productId);
+        ProductDto result = underTest.getProduct(productId);
 
         // Assert
         assertEquals(productDto, result);
@@ -76,7 +76,7 @@ class ProductServiceTest {
         when(productRepository.findById(nonExistentId)).thenReturn(java.util.Optional.empty());
 
         // Execute the getProduct method (expected to throw exception)
-        assertThrows(NoSuchElementException.class, () -> undertest.getProduct(nonExistentId));
+        assertThrows(NoSuchElementException.class, () -> underTest.getProduct(nonExistentId));
     }
 
     @Test
@@ -98,7 +98,7 @@ class ProductServiceTest {
         when(productMapper.fromProduct(savedProduct)).thenReturn(outputDto);
 
         // Calling the method under test
-        ProductDto result = undertest.addNewProduct(inputDto);
+        ProductDto result = underTest.addNewProduct(inputDto);
 
 
         // Asserting the result
@@ -115,7 +115,7 @@ class ProductServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         // Act
-        undertest.deleteProduct(productId);
+        underTest.deleteProduct(productId);
 
         // Assert
         verify(productRepository, times(1)).findById(productId);
@@ -136,7 +136,7 @@ class ProductServiceTest {
         when(productMapper.toProduct(givenProductDto)).thenReturn(givenProduct);
 
         // Act
-        ProductDto result = undertest.updateProduct(productId, givenProductDto);
+        underTest.updateProduct(productId, givenProductDto);
 
         // Assert
         verify(productRepository, times(1)).findById(productId);
@@ -144,8 +144,4 @@ class ProductServiceTest {
         assertEquals("Updated Brand", product.getBrand());
         assertEquals(20.0, product.getPrice());
     }
-
-
-
-
 }

@@ -77,3 +77,5 @@ k
 ;demo/src/test/java/com/example/demo/ProductServiceTest.java,c\9\c9c35ce75578051ebcca88aae32d239cdc0f42b2
 l
 <demo/src/main/java/com/example/demo/user/UserController.java,9\3\93fa032cdcd3fefba215b82f8887962d2700db33
+m
+=demo/src/test/java/com/example/demo/DemoApplicationTests.java,a\6\a6850b6808e4fe1d7176852192046945dc099721
